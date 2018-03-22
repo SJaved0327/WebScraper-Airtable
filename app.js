@@ -31,20 +31,50 @@ function runCLI() {
 			  .goto("https://www.barcodelookup.com/")
 			  .type(".search-input", barcode)
 			  .click(".btn-search")
+			  //wait until the product-details div is loaded w data
 			  .wait(".product-details")
 			  .evaluate(function(){
 			    return document.body.innerHTML;
 			  })
+			  .end()
 			  .then(function(html){
 			  	//load html into cheerio
-			  	
 			  	let $ = cheerio.load(html);
-			  	console.log(html);
-
+			  	//empty div to hold results
+			  	let result = {};
+			  	//grab info from the product-details div
+					$("div.col-md-6.product-details").each(function(i, element){
+						// //empty result object will be populated with key data pieces
+						// const result = {};
+				  	//save the title of each article
+						result.title = $(element)
+							.find("h4")
+							.text();
+						//save the link of each article
+						result.author = $(element)
+							.find("div.product-text-label")
+							.children("span.product-text")
+							.text();
+					});
+					//grab info from the images div
+					$("div#images").each(function(i, element){
+				  	//save the image src url of each article
+						result.image = $(element)
+							.find("img")
+							.attr("src");
+						//save the alt of each image
+						result.alt = $(element)
+							.find("img")
+							.attr("alt")
+						// //push result to results array
+						// results.push(result);
+					});
+		  		console.log(result);
+		  		console.log("* * * * * * * * * * * * * * * * * * *");
 		  	})
 			  .catch(function(error) {
 			    console.error("Search failed:", error);
-			  });
+			  })
 			 })
 			
 			// //create empty array to hold result objects in
