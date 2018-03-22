@@ -71,15 +71,16 @@ function runCLI() {
 					// //grab info from the online-stores div
 					// $("div.online-stores").each(function(i, element){
 				  	let res = {};
-				  	//save the store name
-						res.store = $("div.store-list")
+				  	//save the store name for eBay
+						res.ebay = $("div.store-list")
 							.find("li:first-child")
 							.find("span.store-name")
 							.text();
-						// //save the average store cost
-						// res.cost = $(element)
-						// 	.find("span.store-link")
-						// 	.text();
+						//save the average eBay price
+						res.avg_price = $("div.store-list")
+							.find("li:first-child")
+							.find("span.store-link")
+							.text();
 						stores.push(res)
 					// });
 
