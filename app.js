@@ -66,9 +66,25 @@ function runCLI() {
 						result.alt = $(element)
 							.find("img")
 							.attr("alt")
-						// //push result to results array
-						// results.push(result);
 					});
+					let stores = [];
+					// //grab info from the online-stores div
+					// $("div.online-stores").each(function(i, element){
+				  	let res = {};
+				  	//save the store name
+						res.store = $("div.store-list")
+							.find("li:first-child")
+							.find("span.store-name")
+							.text();
+						// //save the average store cost
+						// res.cost = $(element)
+						// 	.find("span.store-link")
+						// 	.text();
+						stores.push(res)
+					// });
+
+					result.stores = stores;
+
 		  		console.log(result);
 		  		console.log("* * * * * * * * * * * * * * * * * * *");
 		  	})
