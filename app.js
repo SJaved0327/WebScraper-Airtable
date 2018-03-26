@@ -93,38 +93,6 @@ function runCLI() {
 			    console.error("Search failed:", error);
 			  })
 			 })
-			
-			// //create empty array to hold result objects in
-			// let results = [];
-			// 	//grab every header tag with entry-header class
-			// 	// $("div.col-md-6.product-details").each(function(i, element){
-			// 	// 	//empty result object will be populated with key data pieces
-			// 	// 	const result = {};
-			// 	// 	//save the title of each article
-			// 	// 	result.title = $(element)
-			// 	// 		.find("h4")
-			// 	// 		.text();
-			// 	// 	//save the link of each article
-			// 	// 	result.link = $(element)
-			// 	// 		.find("h1")
-			// 	// 		.children("a")
-			// 	// 		.attr("href");
-			// 	// 	//save summary of each article
-			// 	// 	result.summary = $(element)
-			// 	// 		.children("div.entry-summary")
-			// 	// 	// 	.text();
-			// 	// 	// //push result to results array
-			// 	// 	results.push(result);
-			// 	// 	console.log(`### Result ${i} ###`);
-			// 	// 	console.log(result);
-
-			// 	// })
-
-			// 	console.log("* * * * * * * * * * * * * * * * * * *")
-
-			// });
-
-		// })
 };
 
 runCLI();
