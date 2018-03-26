@@ -2,7 +2,7 @@ var model = require("./models");
 const inquirer = require("inquirer");
 const cheerio = require("cheerio");
 const Nightmare = require('nightmare')
-const nightmare = Nightmare({ show: true })
+const nightmare = Nightmare({ show: false })
 const request = require("request");
 
 
@@ -40,49 +40,53 @@ function runCLI() {
 			  .then(function(html){
 			  	//load html into cheerio
 			  	let $ = cheerio.load(html);
-			  	//empty div to hold results
+			  	//empty div to hold find result
 			  	let result = {};
-			  	//grab info from the product-details div
-					$("div.col-md-6.product-details").each(function(i, element){
-						// //empty result object will be populated with key data pieces
-						// const result = {};
-				  	//save the title of each article
-						result.title = $(element)
-							.find("h4")
-							.text();
-						//save the link of each article
-						result.author = $(element)
-							.find("div.product-text-label")
-							.children("span.product-text")
-							.text();
-					});
+			  	let productTextLabel = {}
+
+
+			  	//grab title info from h4
+			  	result.title = $("h1")
+			  		.children("h4")
+			  		.text();
+
+			  	//grab info from each product-text-label div
+			  	$(".product-text-label").each(function(i, element){
+			  		productTextLabel["input"+i] = $(element)
+				  		.find("span.product-text")
+				  		.text();
+				  });
+
+				  result.author = productTextLabel.input1;
+
 					//grab info from the images div
 					$("div#images").each(function(i, element){
 				  	//save the image src url of each article
-						result.image = $(element)
+						result.imageURL = $(element)
 							.find("img")
 							.attr("src");
 						//save the alt of each image
-						result.alt = $(element)
+						result.title = $(element)
 							.find("img")
 							.attr("alt")
 					});
+
 					let stores = [];
 					// //grab info from the online-stores div
 					// $("div.online-stores").each(function(i, element){
-				  	let res = {};
-				  	//save the store name for eBay
-						res.ebay = $("div.store-list")
-							.find("li:first-child")
-							.find("span.store-name")
-							.text();
-						//save the average eBay price
-						res.avg_price = $("div.store-list")
-							.find("li:first-child")
-							.find("span.store-link")
-							.text();
-						stores.push(res)
-					// });
+				  let res = {};
+
+			  	//save the store name for eBay
+					res.store = $("ol")
+						.find("a")
+						.text();
+					//save the average eBay price
+					res.avg_price = $("div.store-list")
+						.find("li:first-child")
+						.find("span.store-link")
+						.text();
+						
+					stores.push(res)
 
 					result.stores = stores;
 
@@ -92,7 +96,7 @@ function runCLI() {
 			  .catch(function(error) {
 			    console.error("Search failed:", error);
 			  })
-			 })
+			})
 };
 
 runCLI();
